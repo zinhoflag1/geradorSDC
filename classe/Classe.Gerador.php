@@ -16,31 +16,8 @@
  * ********************************************************************************** */
 
 class Gerador {
-    #informações da tabela
-
-    public static function Tabela($tabela) {
-        $con = Conexao::getInstance();
-
-        $sql = "SELECT table_name,"
-                . "table_comment,"
-                . " table_rows "
-                . "FROM information_schema.tables"
-                . " where table_name = '" . $tabela . "'";
-
-        $result = $con->query($sql);
-
-        while ($linha = $result->fetch(PDO::FETCH_OBJ)) {
-            $dados['tabela'] = $linha;
-        }
-
-        $dados['dados'] = $this->Campos($tabela);
-
-        return $dados;
-    }
-
-    # informacoes dos campos da tabela
-
-    public function Campos($tabela) {
+    
+    public static function Campos($tabela) {
 
         $con = Conexao::getInstance();
 
@@ -63,7 +40,30 @@ class Gerador {
         return $dados;
     }
     
-    
+    #informações da tabela
+    public static function Tabela($tabela) {
+        $con = Conexao::getInstance();
+
+        $sql = "SELECT table_name,"
+                . "table_comment,"
+                . " table_rows "
+                . "FROM information_schema.tables"
+                . " where table_name = '" . $tabela . "'";
+
+        $result = $con->query($sql);
+
+        while ($linha = $result->fetch(PDO::FETCH_OBJ)) {
+            $dados['tabela'] = $linha;
+        }
+
+        
+        $dados['dados'] = self::Campos($tabela);
+
+        return $dados;
+    }
+
+    # informacoes dos campos da tabela
+
     public function tipoCampo($tipo){
         
         $result = "";

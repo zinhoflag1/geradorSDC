@@ -2,6 +2,7 @@
     include_once("database.php");
     
     $dados = Database::getDatabase();
+    
 ?>
 <!doctype html>
 <html lang="en">
@@ -51,12 +52,17 @@
     
                     <button type="submit" name="envia">Conexão</button>
             </form>-->
+            
+            <label>CaminhoBase</label>
+            <input type="text" id="txtBase" name=''
+                   
+                
 
-            <form action="gerador.php" method="post" name="frmGerar" id="frmGerar">
+            <form action="#" method="post" name="frmGerar" id="frmGerar">
                 <div class="col-md-6">
                     <label>Banco de Dados :</label>
                     <select class="form form-control" id="selBanco" name="selBanco">
-                        <option>gestaocedec</option>
+                        <option>Escolha o banco</option>
                         <?php foreach ($dados as $key => $value) {
                           print "<option>".$value->Database."</option>";  
                         }
@@ -67,8 +73,7 @@
                 <div class="col-md-6">
                     <label>Nome Tabela (Nome da Tabela no Banco de Dados) :</label><br>
                     <select name="tabela" id="tabela"  class="form form-control" >
-                        <option>Escolha a Tabela</option>
-                        
+                        <option>Escolha a Tabela</option>                      
                     </select>
                     <br>
                 </div>
@@ -79,6 +84,8 @@
                         <option>mod_cce</option>
                         <option>mod_compdec</option>
                         <option>mod_pipa</option>
+                        <option>mod_cedec</option>
+                        <option>mod_admin</option>
                     </select>
                     <br>
                 </div>
@@ -97,12 +104,27 @@
                     <br>
                 </div>
 
-                <button type="submit" class="btn btn-primary" name="btnPreview" id="btnPreview">Preview</button>
+                <button type="button" class="btn btn-primary" name="btnPreview" id="btnPreview">Preview</button>
 
-                <br><br>
-                <span id='pathModel'>Model<br>
-                    Caminho : C:\Users\zinhoflag1\Documents\DOWNLOAD\wamp64\www\gestaocedec\mod_ajuda\Model\MarcaEstoqueModel.php
-                </span>
+                <br>
+                <br>
+                 <div class="col-md-12" id='pathModel'>
+                    <span>Model :
+                        <input class="form form-control" type="text" name="txtModel" id='txtModel' value="c:\wampp\www\teste">
+                    </span>
+                 
+                <br>
+                 
+                    <span>Controller :
+                        <input class="form form-control" type="text" name="txtController" id='txtController' value="c:\wampp\www\teste">
+                    </span>
+                 
+                <br>
+                 
+                    <span>Views :<br>
+                        <input class="form form-control" type="text" name="txtView" id='txtController' value="c:\wampp\www\teste">
+                    </span>
+                 </div>
                 
             </form>
 
@@ -113,6 +135,8 @@
         <script type="text/javascript">
 
             $(document).ready(function () {
+                
+                $("#pathModel").hide();
                 
                 $("#selBanco").change(function(){
                     
@@ -143,12 +167,16 @@
                     
                 });
 
-                $("#pathModel").hide();
-
                 $("#btnPreview").click(function () {
-
                     $("#pathModel").show();
-
+                    
+                    $("#txtModel").val("");
+                    $("#txtController").val("");
+                    $("#txtView").val("");
+                    
+                    $("#txtModel").val($("#txtModel").val() + "\\"+ $("#modulo").val() + "\\Model"); 
+                    $("#txtController").val($("#txtController").val() + "\\"+ $("#modulo").val() + "\\Controller"); 
+                    $("#txtModel").val($("#txtModel").val() + "\\"+ $("#modulo").val() + "\\Model"); 
                 })
 
             });
