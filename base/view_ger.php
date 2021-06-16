@@ -58,7 +58,7 @@ $texto = <<< codPhp
 <!-- =================== CORPO  ============================ -->
 <?php include_once "template/page/corpoHeader.php"; ?>
 
-<legend><?=\$view[1]['tabela']->table_comment?></legend>
+<legend><?=\$view[1]['tabela']->TABLE_COMMENT?></legend>
 <table class="table table-bordered table-striped">
 
     {$inputs}

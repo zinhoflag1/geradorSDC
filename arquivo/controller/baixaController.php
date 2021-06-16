@@ -6,7 +6,7 @@ include_once('core/Controller/Controller.php');
  * 	CEDEC-MG - Coordenadoria Estadual de Defesa Civil de Minas Gerais			  	*
  * 	
  *      Gerado de Código : 1.0
- * 	Controller tabela teste										*
+ * 	Controller tabela aju_baixa										*
  * 																					*
  * 	Autor: Demetrio da Silva Passos	
  *      MASP: 1296844
@@ -14,24 +14,24 @@ include_once('core/Controller/Controller.php');
  * 	Criacao : 23/05/2021															*
  * ********************************************************************************** */
 
-class esteController extends Controller {
+class baixaController extends Controller {
 
-    private $este;
-    private $estes;
+    private $baixa;
+    private $baixas;
     private $campos;
     public $numPage;
     
     public function __construct() {
-        $this->este = new EsteModel;
-        $this->estes = $this->este->lista();
+        $this->baixa = new BaixaModel;
+        $this->baixas = $this->baixa->lista();
 
     }
 
-    # index este
+    # index baixa
 
     public function index() {
-        $esteModel = $this->este;
-        include_once 'mod_ajuda/backEnd/View/conEstoque/este/index.php';
+        $baixaModel = $this->baixa;
+        include_once 'mod_ajuda/backEnd/View/conEstoque/baixa/index.php';
     }
 
     /* paginacao */
@@ -40,14 +40,14 @@ class esteController extends Controller {
         
         $this->numPage = $numPage;
 
-        $totalRegistro = count($this->estes);
+        $totalRegistro = count($this->baixas);
         $regPorPagina = $numPage;
         
         $totPag = ceil($totalRegistro / $numPage);
 
         $start = ($page - 1) * $regPorPagina;
 
-        $paginacao = $this->este->paginacao($start, $regPorPagina);
+        $paginacao = $this->baixa->paginacao($start, $regPorPagina);
        
         return [$paginacao, $totPag];
        
@@ -57,9 +57,9 @@ class esteController extends Controller {
     # Exportar dados excel
     public function exportar() {
 
-        $este = new EsteConEstoqueModel;
+        $baixa = new BaixaConEstoqueModel;
         
-        $dados = $este->lista();
+        $dados = $baixa->lista();
         
         $coluna = array_keys($dados[0]);
         
@@ -93,7 +93,7 @@ class esteController extends Controller {
 
     # formulario cadastro
     public function cadastro() {
-        include_once 'mod_ajuda/backEnd/View/conEstoque/este/cadastro.php';
+        include_once 'mod_ajuda/backEnd/View/conEstoque/baixa/cadastro.php';
     }
 
     ################  GRAVAR ##################    
@@ -101,11 +101,11 @@ class esteController extends Controller {
 
     public function gravar() {
 
-        $este = new EsteModel;
+        $baixa = new BaixaModel;
 
-        if ($este->gravar($_POST)) {
+        if ($baixa->gravar($_POST)) {
             FuncaoBase::alert("Registro Gravado com Sucesso !");
-            $this->redirect("ajuda", "este", "index");
+            $this->redirect("ajuda", "baixa", "index");
         }
     }
             
@@ -113,50 +113,50 @@ class esteController extends Controller {
 
     public function pesquisa() {
 
-            include_once 'mod_ajuda/backEnd/View/conEstoque/este/pesquisa.php';
+            include_once 'mod_ajuda/backEnd/View/conEstoque/baixa/pesquisa.php';
     }
     
 
     #visualizar registro
 
     public function view() {
-         $esteModel = $this->este;
-        $view = $this->este->view($_GET['id']);
-        include_once 'mod_ajuda/backEnd/View/conEstoque/este/view.php';
+         $baixaModel = $this->baixa;
+        $view = $this->baixa->view($_GET['id']);
+        include_once 'mod_ajuda/backEnd/View/conEstoque/baixa/view.php';
     }
 
     # editar registro
 
     public function edit() {
 
-        $esteModel = new EsteConEstoqueModel;
+        $baixaModel = new BaixaConEstoqueModel;
 
         if ($this->isPost()) {
 
-            $result = $esteModel->edit($_POST);
+            $result = $baixaModel->edit($_POST);
             
             //var_dump($result);
             if (!empty($result)) {
                 FuncaoBase::alert("Registro Atualizado com Sucesso !");
-                $view = $esteModel->view($_POST['id_este']);
-                $param = array('id'=> $_POST['id_este']);
-                $this->redirect("ajuda", "este", "view", $param);
+                $view = $baixaModel->view($_POST['id_baixa']);
+                $param = array('id'=> $_POST['id_baixa']);
+                $this->redirect("ajuda", "baixa", "view", $param);
             }
         } else {
 
-            $view = $esteModel->view($_GET['id']);
-            include_once 'mod_ajuda/backEnd/View/conEstoque/este/edit.php';
+            $view = $baixaModel->view($_GET['id']);
+            include_once 'mod_ajuda/backEnd/View/conEstoque/baixa/edit.php';
         }
     }
     
     /*  deletar registro */
     public function delete() {
         
-       if($this->este->delete($_GET['id'])){
+       if($this->baixa->delete($_GET['id'])){
            FuncaoBase::alert("Registro Apagado com Sucesso !");
        }
 
-            $this->redirect("ajuda", "este", "index");
+            $this->redirect("ajuda", "baixa", "index");
         
     }
 

@@ -12,24 +12,37 @@ $view = $_POST['view'] ? $_POST['view'] : "";
 $controller = $_POST['controller'] ? $_POST['controller'] : "";
 $model = $_POST['model'] ? $_POST['model'] : "";
 $contexto = $_POST['contexto'] ? $_POST['contexto'] : "";
+$smallTable = $_POST['contexto'] ? $_POST['contexto'] : "";
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 
-if (!file_exists($caminho."/".$modulo."/".$bacFront."/".$view."/".$contexto."/".$tabela."/")) {
-                mkdir($caminho."/".$modulo."/".bacFront."/".$view."/".$contexto."/".$tabela."/");
-            }
+//var_dump($_SERVER['']);
+//
+var_dump($tabela);
+//die();
+
+var_dump($path."/".$caminho."/".$modulo."/Model");
 
 try{
+    if(!file_exists($path."/".$caminho."/".$modulo."/Model")){
+        mkdir($path."/".$caminho."/".$modulo."/Model");
+    }
+    
+    /* cria pasta contexto se nao existir
+    /modulo/backEnd/View/contexto */
+    if(!file_exists($path."/".$caminho."/".$modulo."/".$bacFront."/View/".$tabela)){
+        mkdir($path."/".$caminho."/".$modulo."/".$bacFront."/View/".$tabela);
+    }
+    
 
-copy ($path."/geradorsdc/arquivo/model/".$tabelaUc.$contexto.".php", $caminho."\gestaocedec/mod_ajuda/Model/{$tabelaUc}ConEstoqueModel.php");
-/*
-copy ($path."/geradorsdc/arquivo/controller/".$tabela."Controller.php", $caminho."\mod_ajuda\backEnd\Controller/{$tabela}Controller.php");
-copy ($path."/geradorsdc/arquivo/crud/".$tabela."/cadastro.php", $caminho."/mod_ajuda/backEnd/View/conEstoque/$tabela/cadastro.php");
-copy ($path."/geradorsdc/arquivo/crud/".$tabela."/edit.php",     $caminho."/mod_ajuda/backEnd/View/conEstoque/$tabela/edit.php");
-copy ($path."/geradorsdc/arquivo/crud/".$tabela."/index.php",    $caminho."/mod_ajuda/backEnd/View/conEstoque/$tabela/index.php");
-copy ($path."/geradorsdc/arquivo/crud/".$tabela."/view.php",     $caminho."/mod_ajuda/backEnd/View/conEstoque/$tabela/view.php");
-copy ($path."/geradorsdc/arquivo/crud/".$tabela."/pesquisa.php",     $caminho."/mod_ajuda/backEnd/View/conEstoque/$tabela/pesquisa.php");
-/*
+copy ($path."/geradorsdc/arquivo/model/".$tabelaUc."Model.php", $path."/".$caminho."/".$modulo."/Model/{$tabelaUc}Model.php");
+
+copy ($path."/geradorsdc/arquivo/controller/".$tabela."Controller.php", $path."/".$caminho."/".$modulo."/".$bacFront."/Controller/".$tabela."Controller.php");
+copy ($path."/geradorsdc/arquivo/crud/".$tabela."/cadastro.php", $path."/".$caminho."/".$modulo."/".$bacFront."/View/".$tabela."/cadastro.php");
+copy ($path."/geradorsdc/arquivo/crud/".$tabela."/edit.php",     $path."/".$caminho."/".$modulo."/".$bacFront."/View/".$tabela."/edit.php");
+copy ($path."/geradorsdc/arquivo/crud/".$tabela."/index.php",    $path."/".$caminho."/".$modulo."/".$bacFront."/View/".$tabela."/index.php");
+copy ($path."/geradorsdc/arquivo/crud/".$tabela."/view.php",     $path."/".$caminho."/".$modulo."/".$bacFront."/View/".$tabela."/view.php");
+copy ($path."/geradorsdc/arquivo/crud/".$tabela."/pesquisa.php", $path."/".$caminho."/".$modulo."/".$bacFront."/View/".$tabela."/pesquisa.php");
 /* injetar model include */
 
 

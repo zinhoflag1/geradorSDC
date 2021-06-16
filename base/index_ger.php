@@ -49,7 +49,7 @@ $texto = <<< codPhp
 <!-- =================== CORPO  ============================ -->
 <?php include_once "template/page/corpoHeader.php"; ?>
 
-<a class="btn btn-success" href="<?= FuncaoBase::geraLink("ajuda", "conestoque", "cadgeral") ?>">Voltar</a>
+<a class="btn btn-success" href="<?= FuncaoBase::geraLink("{$mod}", "{$smallTable}", "index") ?>">Voltar</a>
 <a class="btn btn-info" href="<?= FuncaoBase::geraLink("{$mod}", "{$smallTable}", "cadastro") ?>" title="Novo Registro">+ Novo</a>
 <a class="btn btn-info" href="<?= FuncaoBase::geraLink("{$mod}", "{$smallTable}", "pesquisa") ?>" title="Busca Registro">Pesquisa</a>
 <a class="btn btn-info" href="<?= FuncaoBase::geraLink("{$mod}", "{$smallTable}", "exportar") ?>" title="Exportar dados Excel">Exportar Excel</a>

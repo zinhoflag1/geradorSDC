@@ -11,27 +11,27 @@ include_once('core/Controller/Controller.php');
  * 	Autor: Demetrio da Silva Passos	
  *      MASP: 1296844
  * 																					*
- * 	Criacao : 23/05/2021															*
+ * 	Criacao : 24/05/2021															*
  * ********************************************************************************** */
 
-class esteController extends Controller {
+class testeController extends Controller {
 
-    private $este;
-    private $estes;
+    private $teste;
+    private $testes;
     private $campos;
     public $numPage;
     
     public function __construct() {
-        $this->este = new EsteModel;
-        $this->estes = $this->este->lista();
+        $this->teste = new TesteModel;
+        $this->testes = $this->teste->lista();
 
     }
 
-    # index este
+    # index teste
 
     public function index() {
-        $esteModel = $this->este;
-        include_once 'mod_ajuda/backEnd/View/conEstoque/este/index.php';
+        $testeModel = $this->teste;
+        include_once 'mod_compdec/backEnd/View/teste/index.php';
     }
 
     /* paginacao */
@@ -40,14 +40,14 @@ class esteController extends Controller {
         
         $this->numPage = $numPage;
 
-        $totalRegistro = count($this->estes);
+        $totalRegistro = count($this->testes);
         $regPorPagina = $numPage;
         
         $totPag = ceil($totalRegistro / $numPage);
 
         $start = ($page - 1) * $regPorPagina;
 
-        $paginacao = $this->este->paginacao($start, $regPorPagina);
+        $paginacao = $this->teste->paginacao($start, $regPorPagina);
        
         return [$paginacao, $totPag];
        
@@ -57,9 +57,9 @@ class esteController extends Controller {
     # Exportar dados excel
     public function exportar() {
 
-        $este = new EsteConEstoqueModel;
+        $teste = new TesteModel;
         
-        $dados = $este->lista();
+        $dados = $teste->lista();
         
         $coluna = array_keys($dados[0]);
         
@@ -93,7 +93,7 @@ class esteController extends Controller {
 
     # formulario cadastro
     public function cadastro() {
-        include_once 'mod_ajuda/backEnd/View/conEstoque/este/cadastro.php';
+        include_once 'mod_compdec/backEnd/View/teste/cadastro.php';
     }
 
     ################  GRAVAR ##################    
@@ -101,11 +101,11 @@ class esteController extends Controller {
 
     public function gravar() {
 
-        $este = new EsteModel;
+        $teste = new TesteModel;
 
-        if ($este->gravar($_POST)) {
+        if ($teste->gravar($_POST)) {
             FuncaoBase::alert("Registro Gravado com Sucesso !");
-            $this->redirect("ajuda", "este", "index");
+            $this->redirect("compdec", "teste", "index");
         }
     }
             
@@ -113,50 +113,50 @@ class esteController extends Controller {
 
     public function pesquisa() {
 
-            include_once 'mod_ajuda/backEnd/View/conEstoque/este/pesquisa.php';
+            include_once 'mod_compdec/backEnd/View/teste/pesquisa.php';
     }
     
 
     #visualizar registro
 
     public function view() {
-         $esteModel = $this->este;
-        $view = $this->este->view($_GET['id']);
-        include_once 'mod_ajuda/backEnd/View/conEstoque/este/view.php';
+         $testeModel = $this->teste;
+        $view = $this->teste->view($_GET['id']);
+        include_once 'mod_compdec/backEnd/View/teste/view.php';
     }
 
     # editar registro
 
     public function edit() {
 
-        $esteModel = new EsteConEstoqueModel;
+        $testeModel = new TesteModel;
 
         if ($this->isPost()) {
 
-            $result = $esteModel->edit($_POST);
+            $result = $testeModel->edit($_POST);
             
             //var_dump($result);
             if (!empty($result)) {
                 FuncaoBase::alert("Registro Atualizado com Sucesso !");
-                $view = $esteModel->view($_POST['id_este']);
-                $param = array('id'=> $_POST['id_este']);
-                $this->redirect("ajuda", "este", "view", $param);
+                $view = $testeModel->view($_POST['id_teste']);
+                $param = array('id'=> $_POST['id_teste']);
+                $this->redirect("compdec", "teste", "view", $param);
             }
         } else {
 
-            $view = $esteModel->view($_GET['id']);
-            include_once 'mod_ajuda/backEnd/View/conEstoque/este/edit.php';
+            $view = $testeModel->view($_GET['id']);
+            include_once 'mod_compdec/backEnd/View/teste/edit.php';
         }
     }
     
     /*  deletar registro */
     public function delete() {
         
-       if($this->este->delete($_GET['id'])){
+       if($this->teste->delete($_GET['id'])){
            FuncaoBase::alert("Registro Apagado com Sucesso !");
        }
 
-            $this->redirect("ajuda", "este", "index");
+            $this->redirect("compdec", "teste", "index");
         
     }
 

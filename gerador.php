@@ -34,34 +34,46 @@
             <div class="col-md-8">
 
                 <?php
+
                 if (!empty($_POST)) {
 
-#nome Completo tabela 
-                    $tabela = isset($_POST['tabela']) ? $_POST['tabela'] : "";
-                    $modulo = isset($_POST['modulo']) ? $_POST['modulo'] : "";
+    #nome Completo tabela 
+    $tabela = isset($_POST['tabela']) ? $_POST['tabela'] : "";
+    $modulo = isset($_POST['modulo']) ? $_POST['modulo'] : "";
+    $caminhoBase = isset($_POST['txtBase']) ? $_POST['txtBase'] : "";
+    $bacFront = isset($_POST['bacFront']) ? $_POST['bacFront'] : "";
+    $view = isset($_POST['txtView']) ? $_POST['txtView'] : "";
+    $controller = isset($_POST['txtController']) ? $_POST['txtController'] : "";
+    $model = isset($_POST['txtModel']) ? $_POST['txtModel'] : "";
 
-                    $prefixoMod = substr($tabela, 0, strpos($tabela, "_") + 1);
 
-                    $contexto = isset($_POST['contexto']) ? $_POST['contexto'] : "";
+    $prefixoMod = substr($tabela, 0, strpos($tabela, "_") + 1);
 
-# nome modulo sem mod_
-                    $mod = substr($modulo, (strpos($modulo, "_") + 1));
+    $contexto = strlen($_POST['contexto']) > 0 ? $_POST['contexto'] : str_replace("_", "", $tabela);
 
-#nome tabela sem prefixo
-                    $smallTable = substr($tabela, (strpos($tabela, "_") + 1));
-                    $smallTableCamel = ucfirst($smallTable);
+    # nome modulo sem mod_
+    $mod = substr($modulo, (strpos($modulo, "_") + 1));
 
-#nome do arquivo model
-                    $nomeFileModel = ucfirst($smallTable) . ucfirst($contexto) . "Model";
+    #nome tabela sem prefixo
+    if(strpos($tabela, "_")){
+    $smallTable = substr($tabela, (strpos($tabela, "_") + 1));
+    }else {
+        $smallTable = $tabela;
+    }
 
-#nome do arquivo controller
-                    $nomeFileController = $smallTable . "Controller";
+    $smallTableCamel = ucfirst($smallTable);
 
-                    $id_tabela = "id_" . $smallTable;
+    #nome do arquivo model
+    $nomeFileModel = ucfirst($smallTable). "Model";
 
-                    $dataAtual = date('d/m/Y');
-                    
-                    $impressao_var = "<table class='table table-bordered table-sm'>
+    #nome do arquivo controller
+    $nomeFileController = $smallTable . "Controller";
+
+    $id_tabela = "id_" . $smallTable;
+
+    $dataAtual = date('d/m/Y');
+
+    $impressao_var = "<table class='table table-bordered table-sm'>
                         <tr>
                             <th>Nome Tabela</th>
                             <th>variavel</th>
@@ -119,10 +131,9 @@
                         </tr>     
                     </table>";
 
-
                     print $impressao_var;
                     if (!file_exists("arquivo/crud/{$smallTable}")) {
-                    mkdir("arquivo/crud/{$smallTable}");
+                        mkdir("arquivo/crud/{$smallTable}");
                     }
                     # gerar Model
                     include 'base/tabelaModel_ger.php';
@@ -132,50 +143,59 @@
                     include 'base/view_ger.php';
                     include 'base/index_ger.php';
                     include 'base/pesquisa_ger.php';
-                    }
-                    ?>
-                </div>
-                <div class="col-md-4"><legend>Busca</legend></div>
+                }
+                ?>
             </div>
+            <div class="col-md-4"><legend>Busca</legend></div>
+        </div>
 
-            <br><br>
+        <br><br>
 
 
-            <script src="js/jquery/jquery.js"></script>
-            <script>
+        <script src="js/jquery/jquery.js"></script>
+        <script>
 
-                            $(document).ready(function () {
+                    $(document).ready(function () {
 
-                                $("#msgCopy").hide();
+                    $("#msgCopy").hide();
+                    $("#btnCopiar").click(function () {
 
-                                $("#btnCopiar").click(function () {
+                    var contexto = '<?= $smallTable ?>';
+                    
+                    var form_data = new FormData();
+                  
+                    form_data.append("tabela", contexto);
+                    form_data.append("modulo", "<?=$modulo?>");
+                    form_data.append("txtBase" , "<?=$caminhoBase?>");
+                    form_data.append("bacfront" , "<?=$bacFront?>");
+                    form_data.append("view" , "<?=$view?>");
+                    form_data.append("controller", "<?=$controller?>");
+                    form_data.append("model" , "<?=$model?>");
+                    form_data.append("contexto", "<?=$contexto?>");
+                    form_data.append("smallTable", "<?=$smallTable?>");
+                
+                $.ajax({
+                url: "base/copy.php",
+                type: "POST",
+                data: form_data,
+                processData: false,
+                contentType: false
 
-                                    var contexto = '<?= $smallTable ?>';
 
-                                var tabela = {
-                                    "tabela": contexto,
-                                };
+                }).done(function (resposta) {
+                $("#msgCopy").show();
+                console.log(resposta);
 
-                                $.ajax({
-                                    url: "base/copy.php",
-                                    type: "POST",
-                                    data: tabela,
-                                    dataType: "html"
+                }).fail(function (jqXHR, textStatus) {
+                console.log("Request failed: " + textStatus);
 
-                                }).done(function (resposta) {
-                                    $("#msgCopy").show();
-                                    console.log(resposta);
+                }).always(function () {
+                //console.log("completou");
+                });
 
-                                }).fail(function (jqXHR, textStatus) {
-                                    console.log("Request failed: " + textStatus);
+                });
 
-                                }).always(function () {
-                                    //console.log("completou");
-                                });
-
-                            });
-
-                        });
-        </script>
+                });
+                </script>
 
 

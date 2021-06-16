@@ -145,7 +145,7 @@ foreach ($campos['full'] as $key => $campo) {
     }
 }
 
-# local C:\Users\zinhoflag1\Documents\DOWNLOAD\wamp64\www\gestaocedec\mod_ajuda\backEnd\View\conEstoque\marca\cadastro.php
+
 
 $cadastro = fopen("arquivo/crud/{$smallTable}/cadastro.php", "w") or die("Unable to open file!");
 
@@ -177,7 +177,7 @@ $texto = <<< codPhp
     {$inputs}
     <div class="col-md-12 text-center">
         <br>
-        <a class="btn btn-success" href="<?=FuncaoBase::geraLink("ajuda", "conestoque", "index")?>">Voltar</a>
+        <a class="btn btn-success" href="<?=FuncaoBase::geraLink("{$modulo}", "{$smallTable}", "index")?>">Voltar</a>
         <input type="submit" class="btn btn-info" name="btnGravar" id="btnGravar" value="Gravar">
     </div>
 </form>

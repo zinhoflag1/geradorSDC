@@ -52,12 +52,12 @@ $tabelas = Database::getTabelas('gestaocedec');
             <button type="submit" name="envia">Conexão</button>
     </form>-->
     <div class="container">
-        <form action="#" method="post" name="frmGerar" id="frmGerar">
+        <form action="gerador.php" method="post" name="frmGerar" id="frmGerar">
             <div class="row">
 
                 <div class="col-6">
 
-                    <label>Diretorio Base</label>
+                    <label>Diretorio Base :</label><span style="font-style: italic"> obs pasta apos root apache ex: gestaocedec</span>
                     <input class="form form-control" type="text" id="txtBase" name='txtBase' value="teste"><br>
                     <label>Banco de Dados :</label>
                     <select class="form form-control" id="selBanco" name="selBanco">
@@ -128,7 +128,7 @@ $tabelas = Database::getTabelas('gestaocedec');
         </form>
     </div>
 </div>
-  
+
 <script src="js/jquery/jquery.js"></script>
 <script src="js/bootstrap.js"></script>
 <script type="text/javascript">
@@ -167,8 +167,14 @@ $tabelas = Database::getTabelas('gestaocedec');
 
             $("#txtModel").val($("#txtModel").val() + "" + "\\" + $("#modulo").val() + "\\" + $("#bacFront").val() + "\\Model");
             $("#txtController").val($("#txtController").val() + "\\" + $("#modulo").val() + "\\" + $("#bacFront").val() + "\\Controller");
-            $("#txtView").val($("#txtView").val() + "\\" + $("#modulo").val() + "\\" + $("#bacFront").val() + "\\View" + "\\" + contexto);
-        })
+            $("#txtView").val($("#txtView").val() + "\\" + $("#modulo").val() + "\\" + $("#bacFront").val() + "\\View\\" + contexto);
+        });
+
+        /* gerar */
+        $("#btnGerar").click(function () {
+            $("#frmGerar").submit();
+        });
+
 
 
 
@@ -203,41 +209,7 @@ $tabelas = Database::getTabelas('gestaocedec');
     }
 
 
-    /* gerar */
-    function gerar() {
 
-        var form = new FormData();
-
-        form.append("txtBase",       $("#txtBase").val());
-        form.append("selBanco",      $("#selBanco").val());
-        form.append("tabela",        $("#tabela").val());
-        form.append("modulo",        $("#modulo").val());
-        form.append("bacFront",      $("#bacFront").val());
-        form.append("contexto",      $("#contexto").val());
-        form.append("txtModel",      $("#txtModel").val());
-        form.append("txtController", $("#txtController").val());
-        form.append("txtView",       $("#txtView").val());
-        $.ajax({
-            type: 'POST',
-            url: 'gerador.php',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: form_data,
-            success: function (response) {
-                $("#tabela").empty();
-                $("#tabela").append(response);
-                //console.log(JSON.stringify(response));
-
-            },
-            error: function (e) {
-                //console.log(JSON.stringify(form_data));
-                //console.log(JSON.stringify(response));
-                alert("Ocorreu um Erro !");
-            }
-
-        });
-    }
 
 
 </script>
