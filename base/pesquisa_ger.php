@@ -65,7 +65,7 @@ $texto = <<< codPhp
 
 if (\$btn == 'Pesquisar') {
 
-    \$busca = new {$smallTableCamel}ConEstoqueModel();
+    \$busca = new {$smallTableCamel}{$contexto}Model();
     \${$smallTable}s = \$busca->listaNome(\$nome);
     
     //var_dump(\$unidades);

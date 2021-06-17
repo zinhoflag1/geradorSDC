@@ -1,3 +1,4 @@
+<?php include_once("config.ini.php");?>
 <!doctype html>
 <html lang="en">
     <head>
@@ -14,8 +15,8 @@
     </head>
     <body>
         <nav class="navbar bg-dark" style="color:white">
-            Gerador Código 1.0<br>
-            Autor: Demetrio Silva Passos
+            <?=VERSAO?><br>
+            <?=AUTOR?>
         </nav>
 
         <div class="col-md-12">
@@ -45,11 +46,9 @@
     $view = isset($_POST['txtView']) ? $_POST['txtView'] : "";
     $controller = isset($_POST['txtController']) ? $_POST['txtController'] : "";
     $model = isset($_POST['txtModel']) ? $_POST['txtModel'] : "";
-
+    $contexto = isset($_POST['contexto']) ? $_POST['contexto'] : "";
 
     $prefixoMod = substr($tabela, 0, strpos($tabela, "_") + 1);
-
-    $contexto = strlen($_POST['contexto']) > 0 ? $_POST['contexto'] : str_replace("_", "", $tabela);
 
     # nome modulo sem mod_
     $mod = substr($modulo, (strpos($modulo, "_") + 1));
@@ -64,7 +63,7 @@
     $smallTableCamel = ucfirst($smallTable);
 
     #nome do arquivo model
-    $nomeFileModel = ucfirst($smallTable). "Model";
+    $nomeFileModel = ucfirst($smallTable).$contexto."Model";
 
     #nome do arquivo controller
     $nomeFileController = $smallTable . "Controller";

@@ -108,6 +108,10 @@ foreach (\$paginacao[0] as \${$smallTable}) {
         for (\$p = 1; \$p <= \$paginacao[1]; \$p++) {
 
             print "<li class=\"" . (\$page == \$p ? 'active' : '') . "\"><a href=\"" . FuncaoBase::geraLink('{$mod}', '{$smallTable}', 'index', array('page' => \$p)) . "\">" . \$p . "</a></li>";
+            if((\$p > 1) && (\$p % 15 == 0)) {
+            print "</ul>";
+                print "<ul class=\"pagination\">";
+            }
         }
         print "<li><a href=\"" . FuncaoBase::geraLink('{$mod}', '{$smallTable}', 'index', array('page' => \$paginacao[1])) . "\">Último</a></li>";
         print "</ul>";

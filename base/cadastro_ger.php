@@ -177,7 +177,7 @@ $texto = <<< codPhp
     {$inputs}
     <div class="col-md-12 text-center">
         <br>
-        <a class="btn btn-success" href="<?=FuncaoBase::geraLink("{$modulo}", "{$smallTable}", "index")?>">Voltar</a>
+        <a class="btn btn-success" href="<?=FuncaoBase::geraLink("{$mod}", "{$smallTable}", "index")?>">Voltar</a>
         <input type="submit" class="btn btn-info" name="btnGravar" id="btnGravar" value="Gravar">
     </div>
 </form>

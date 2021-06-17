@@ -1,6 +1,7 @@
 <?php
 include_once ("classe/Classe.PDO.php");
 include_once("database.php");
+include_once("config.ini.php");
 
 $dados = Database::getDatabase();
 $tabelas = Database::getTabelas('gestaocedec');
@@ -17,9 +18,9 @@ $tabelas = Database::getTabelas('gestaocedec');
         <title>Hello, world!</title>
     </head>
     <body>
-        <nav class="navbar navbar-dark bg-dark">
-            Gerador Código 1.0
-            Autor: Demetrio Silva Passos
+        <nav class="navbar navbar-dark bg-dark" style="color:white">
+             <?=VERSAO?><br>
+            <?=AUTOR?>
         </nav>
         <div class="col-md-12">
 

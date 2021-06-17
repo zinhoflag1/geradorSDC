@@ -7,6 +7,8 @@
 
 $controller = fopen("arquivo/controller/{$smallTable}Controller.php", "w") or die("Unable to open file!");
 
+$pastaContexto = (strlen($contexto) > 0) ? $contexto."/":"";
+
 $texto = <<< codPhp
 
 <?php
@@ -41,7 +43,7 @@ class $nomeFileController extends Controller {
 
     public function index() {
         \${$smallTable}Model = \$this->{$smallTable};
-        include_once '{$modulo}/{$bacFront}/View/{$smallTable}/index.php';
+        include_once '{$modulo}/{$bacFront}/View/{$pastaContexto}{$smallTable}/index.php';
     }
 
     /* paginacao */
@@ -67,7 +69,7 @@ class $nomeFileController extends Controller {
     # Exportar dados excel
     public function exportar() {
 
-        \${$smallTable} = new {$smallTableCamel}Model;
+        \${$smallTable} = new {$smallTableCamel}{$contexto}Model;
         
         \$dados = \${$smallTable}->lista();
         
@@ -103,7 +105,7 @@ class $nomeFileController extends Controller {
 
     # formulario cadastro
     public function cadastro() {
-        include_once '{$modulo}/{$bacFront}/View/{$smallTable}/cadastro.php';
+        include_once '{$modulo}/{$bacFront}/View/{$pastaContexto}{$smallTable}/cadastro.php';
     }
 
     ################  GRAVAR ##################    
@@ -123,7 +125,7 @@ class $nomeFileController extends Controller {
 
     public function pesquisa() {
 
-            include_once '{$modulo}/{$bacFront}/View/{$smallTable}/pesquisa.php';
+            include_once '{$modulo}/{$bacFront}/View/{$pastaContexto}{$smallTable}/pesquisa.php';
     }
     
 
@@ -132,14 +134,14 @@ class $nomeFileController extends Controller {
     public function view() {
          \${$smallTable}Model = \$this->{$smallTable};
         \$view = \$this->{$smallTable}->view(\$_GET['id']);
-        include_once '{$modulo}/{$bacFront}/View/{$smallTable}/view.php';
+        include_once '{$modulo}/{$bacFront}/View/{$pastaContexto}{$smallTable}/view.php';
     }
 
     # editar registro
 
     public function edit() {
 
-        \${$smallTable}Model = new {$smallTableCamel}Model;
+        \${$smallTable}Model = new {$smallTableCamel}{$contexto}Model;
 
         if (\$this->isPost()) {
 
@@ -155,7 +157,7 @@ class $nomeFileController extends Controller {
         } else {
 
             \$view = \${$smallTable}Model->view(\$_GET['id']);
-            include_once '{$modulo}/{$bacFront}/View/{$smallTable}/edit.php';
+            include_once '{$modulo}/{$bacFront}/View/{$pastaContexto}{$smallTable}/edit.php';
         }
     }
     

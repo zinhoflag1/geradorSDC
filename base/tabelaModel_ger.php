@@ -173,7 +173,7 @@ $inputs = substr($inputs, 0, -2);
 //var_dump($inputs);
 $inputSel = substr($inputSel, 0, -2);
 
-$model = fopen("arquivo/model/$nomeFileModel.php", "w") or die("Unable to open file!");
+    $model = fopen("arquivo/model/$nomeFileModel.php", "w") or die("Unable to open file!");
 
 $texto = <<< codPhp
 <?php
