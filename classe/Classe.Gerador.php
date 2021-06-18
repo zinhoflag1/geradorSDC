@@ -76,10 +76,19 @@ class Gerador {
         }elseif(strpos($tipo, "tinyint") == 0){
             $result = "checkbox";
         }
-        
+        return $result;
+    }
+    
+    public function tamanhoColuna($tamanho) {
+        if($tamanho <='26'){
+            $result = 2;
+        }elseif ($tamanho <='70') {
+            $result = 6;
+        }else {
+            $result = 12;
+        }
         
         return $result;
-        
     }
 
 

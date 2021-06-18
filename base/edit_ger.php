@@ -21,17 +21,19 @@ foreach ($campos['full'] as $key=>$campo) {
     
         # chave primaria
         if($campo->column_key == "PRI"){
-            $inputs .= "<div class='col-md-6'>\n";
+            $inputs .= "<div class='col-md-12'>\n";
+            $inputs .= "<div class='col-md-1'>\n";
             $inputs .= "<label>".$campo->column_comment."</label>\n";
             $inputs .= "<input type=\"".$gerador->tipoCampo($campo->column_type)."\" class='form form-control' name='".$campo->column_name."' id='".$campo->column_name."' value='<?=\$view[0]['{$campo->column_name}']?>'  readonly=readonly >\n";
+            $inputs .= "</div>\n";
             $inputs .= "</div>\n";
         # campos normais   
         }elseif(is_null($campo->column_key)){
             //var_dump(strpos($campo->column_name, 'data_'));
 
             $value = (strpos($campo->column_name, 'data_') === 0) ? "<?=DataMysql::dataVisual(\$view[0]['{$campo->column_name}'])?>" : "<?=\$view[0]['{$campo->column_name}']?>"; 
-
-            $inputs .= "<div class='col-md-6'>\n";
+            $colSize = $gerador->tamanhoColuna($campo->character_maximum_length);
+            $inputs .= "<div class='col-md-".$colSize."'>\n";
             $inputs .= "<label>".$campo->column_comment."</label>\n";
             $inputs .= "<input type=\"".$gerador->tipoCampo($campo->column_type)."\" class='form form-control' name='".$campo->column_name."' id='".$campo->column_name."' value='{$value}'  maxlength='".($campo->character_maximum_length-1)."' required>\n";
             $inputs .= "</div>\n";

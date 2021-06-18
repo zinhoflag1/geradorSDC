@@ -26,15 +26,15 @@ foreach ($campos['full'] as $key => $campo) {
     # campos normais ( sem chave primaria)
     if (is_null($campo->column_key)) {
         $maxlen = (is_null($campo->character_maximum_length)) ? "" : ($campo->character_maximum_length - 1);
-
+        $colSize = $gerador->tamanhoColuna($campo->character_maximum_length);
         if($gerador->tipoCampo($campo->column_type) == "checkbox") {
-            
-            print "checkbox";
-            
+            print "checkbox";  
         }else {
-            $inputs .= "<div class='col-md-6'>\n";
+            $inputs .= "<div class='row'>\n";
+            $inputs .= "<div class='col-md-".$colSize."'>\n";
             $inputs .= "<label>" . $campo->column_comment . "</label>\n";
             $inputs .= "<input type=\"" . $gerador->tipoCampo($campo->column_type) . "\" class='form form-control' name='" . $campo->column_name . "' id='" . $campo->column_name . "' maxlength='" . $maxlen . "' required >\n";
+            $inputs .= "</div>\n";
             $inputs .= "</div>\n";
         }
     

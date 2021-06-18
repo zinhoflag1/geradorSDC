@@ -16,6 +16,14 @@ $tabelas = Database::getTabelas('gestaocedec');
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <title>Hello, world!</title>
+        <style>
+            span {
+                font-size: 10pt;
+                font-style: oblique;
+                color: #77757a;
+            }
+            
+        </style>
     </head>
     <body>
         <nav class="navbar navbar-dark bg-dark" style="color:white">
@@ -127,6 +135,18 @@ $tabelas = Database::getTabelas('gestaocedec');
 
                 </div>
         </form>
+        <div>
+            <p style="text-align: center"> <legend>Nomeclatuda Banco de Dados</legend></p>
+            <ul>
+                <li>Chave primária : id</li>
+                <li>Campo Data : data_ <span> ( Datapicker )</span></li>
+                <li>Campo Valores Monerarios : val_ <span> ( Mascara )</span></li>
+                <li>Ordenação Formulario <span>( segue ordem colunas tabela BD )</span></li>
+                <li>Comentário de colunas usado como Label</li>
+                
+            </ul>
+            
+        </div>
     </div>
 </div>
 
