@@ -51,7 +51,7 @@ foreach ($campos['full'] as $key => $campo) {
         $id_fk = $campo->column_name;
         
         # instancias dados para busca FK
-        $obj_fk .= "\n\${$nomeTableFk[0]->tabela} = new {$smallTableCamel}ConEstoqueModel();\n  
+        $obj_fk .= "\n\${$nomeTableFk[0]->tabela} = new {$smallTableCamel}{$contexto}Model();\n  
                     \$dados{$nomeTblFkCamel} = \${$nomeTableFk[0]->tabela}->lista{$id_fk}Autocomplete();\n";
         
         
@@ -69,7 +69,8 @@ foreach ($campos['full'] as $key => $campo) {
         });\n";
         
         # input e label para pesquisa de dados
-        $inputs .= "<div class='col-md-6'>\n";
+        $inputs .= "<div class='row'>\n";
+        $inputs .= "<div class='col-md-".$colSize."'>\n";
         $inputs .= "<label>" . $campo->column_comment . "</label>\n";
         $inputs .= "<div class=\"input-group\">\n";
         $inputs .= "<input type=\"text\" class='form form-control' name='{$nomeFk}_fk' id='{$nomeFk}_fk' required readonly='readonly'>\n";
@@ -78,6 +79,7 @@ foreach ($campos['full'] as $key => $campo) {
             </span> </div>"; 
         $inputs .= "<input type=\"hidden\" name='" . $campo->column_name . "' id='" . $campo->column_name . "' required readonly='readonly'>\n";
            
+        $inputs .= "</div>\n";
         $inputs .= "</div>\n";
         
         
