@@ -5,9 +5,9 @@ include_once 'classe/Classe.Gerador.php';
 
 $gerador = new Gerador();
 
-$tabela = $gerador->Tabela($_POST['tabela']);
+$tabela = $gerador->Tabela($_POST['tabela'], $_POST['selBanco']);
 
-$campos = $gerador->Campos($_POST['tabela']);
+$campos = $gerador->Campos($_POST['tabela'], $_POST['selBanco']);
 
 $inputs = "";
 

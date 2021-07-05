@@ -5,9 +5,9 @@ include_once 'classe/Classe.Gerador.php';
 
 $gerador = new Gerador();
 
-$tabela = $gerador->Tabela($_POST['tabela']);
+$tabela = $gerador->Tabela($_POST['tabela'], $_POST['selBanco']);
 
-$campos = $gerador->Campos($_POST['tabela']);
+$campos = $gerador->Campos($_POST['tabela'],$_POST['selBanco']);
 
 $inputs = "";
 
@@ -21,15 +21,50 @@ $dados_fk = "";
 
 $close_focus_pesquisa = "";
 
+$radio_button_padrao ="";
+
 foreach ($campos['full'] as $key => $campo) {
+    
+     var_dump($campo);
 
     # campos normais ( sem chave primaria)
-    if (is_null($campo->column_key)) {
+    if (empty($campo->column_key)) {
         $maxlen = (is_null($campo->character_maximum_length)) ? "" : ($campo->character_maximum_length - 1);
 
-        if($gerador->tipoCampo($campo->column_type) == "checkbox") {
+        
+        if($gerador->tipoCampo($campo->column_type) == "rb_ck") {
             
-            print "checkbox";
+            # radio button
+            if(substr($campo->column_name, 0, 3) == "rb_"){
+                
+                $radio_button_padrao .= "\n\$(\"#".$campo->column_name."_nao\").attr(\"checked\",true);\n";
+                $inputs .= "<div class='col-md-6'>\n";
+                $inputs .= "<div class='radio'>\n";
+                $inputs .= "<label>\n";
+                $inputs .= "<input type='radio' name='".$campo->column_name."' id='".$campo->column_name."_sim' value='1'>\n";
+                $inputs .= "Sim\n";
+                $inputs .= "</label>\n";
+                $inputs .= "</div>\n";
+                $inputs .= "<div class='radio'>\n";
+                $inputs .= "<label>\n";
+                $inputs .= "<input type='radio' name='".$campo->column_name."' id='".$campo->column_name."_nao' value='0'>\n";
+                $inputs .= "Não\n";
+                $inputs .= "</label>\n";
+                $inputs .= "</div>\n";
+                $inputs .= "</div>\n";
+
+            $inputs .= "<div class='col-md-6'>\n";
+            $inputs .= "<label>" . $campo->column_comment . "</label>\n";
+            $inputs .= "<input type=\"" . $gerador->tipoCampo($campo->column_type) . "\" class='form form-control' name='" . $campo->column_name . "' id='" . $campo->column_name . "' maxlength='" . $maxlen . "' required >\n";
+            $inputs .= "</div>\n";
+                
+             
+            # checkbox
+            }elseif(substr($campo->column_name, 0, 3) == "ck_"){
+                print "checkbox";
+            }
+            
+            
             
         }else {
             $inputs .= "<div class='col-md-6'>\n";
@@ -37,6 +72,9 @@ foreach ($campos['full'] as $key => $campo) {
             $inputs .= "<input type=\"" . $gerador->tipoCampo($campo->column_type) . "\" class='form form-control' name='" . $campo->column_name . "' id='" . $campo->column_name . "' maxlength='" . $maxlen . "' required >\n";
             $inputs .= "</div>\n";
         }
+        
+      
+        
     
     # chave estrangeira (campo com pesquisa modal
     }elseif ($campo->column_key == "MUL"){
@@ -197,10 +235,15 @@ $texto = <<< codPhp
         
     $(document).ready(function () {
     
+    
+        /* radio button padrao */
+        {$radio_button_padrao}
+    
         /* close focus pesquisa */
         {$close_focus_pesquisa}
     
         $("#frm{$smallTableCamel}").trigger("reset");
+        
     
         {$datamask}
         

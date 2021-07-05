@@ -17,16 +17,16 @@
 
 class Gerador {
     
-    public static function Campos($tabela) {
+    public static function Campos($tabela, $banco = "") {
 
         $con = Conexao::getInstance();
 
         $sql = "select column_name, column_type, column_comment, column_key, character_maximum_length
                     from information_schema.COLUMNS 
                     where table_name = '{$tabela}' 
-                    and table_schema = 'gestaocedec';";
+                    and table_schema = '{$banco}';";
         $result = $con->query($sql);
-
+               
         while ($linha = $result->fetch(PDO::FETCH_OBJ)) {
 
             $dados['full'][] = $linha; // todos dados do campo
@@ -41,7 +41,7 @@ class Gerador {
     }
     
     #informações da tabela
-    public static function Tabela($tabela) {
+    public static function Tabela($tabela, $banco) {
         $con = Conexao::getInstance();
 
         $sql = "SELECT table_name,"
@@ -57,7 +57,7 @@ class Gerador {
         }
 
         
-        $dados['dados'] = self::Campos($tabela);
+        $dados['dados'] = self::Campos($tabela, $banco);
 
         return $dados;
     }
@@ -65,7 +65,7 @@ class Gerador {
     # informacoes dos campos da tabela
 
     public function tipoCampo($tipo){
-        
+        var_dump($tipo);
         $result = "";
         if(strpos($tipo, "int(") == 0){
             $result = "text";
@@ -74,7 +74,8 @@ class Gerador {
         }elseif(strpos($tipo, "date") == 0){
             $result = "date";
         }elseif(strpos($tipo, "tinyint") == 0){
-            $result = "checkbox";
+            
+            $result = "rb_ck";
         }
         
         

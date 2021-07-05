@@ -35,7 +35,7 @@
             <div class="col-md-8">
 
                 <?php
-
+                
                 if (!empty($_POST)) {
 
     #nome Completo tabela 
@@ -47,6 +47,7 @@
     $controller = isset($_POST['txtController']) ? $_POST['txtController'] : "";
     $model = isset($_POST['txtModel']) ? $_POST['txtModel'] : "";
     $contexto = isset($_POST['contexto']) ? $_POST['contexto'] : "";
+    $banco = isset($_POST['selBanco']) ? $_POST['selBanco'] : "";
 
     $prefixoMod = substr($tabela, 0, strpos($tabela, "_") + 1);
 
@@ -73,6 +74,10 @@
     $dataAtual = date('d/m/Y');
 
     $impressao_var = "<table class='table table-bordered table-sm'>
+                        <tr>
+                            <th colspan=3>Banco : {$banco}</th>
+                          
+                        </tr>
                         <tr>
                             <th>Nome Tabela</th>
                             <th>variavel</th>
