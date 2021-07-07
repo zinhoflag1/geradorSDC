@@ -20,6 +20,8 @@ class Gerador {
     public static function Campos($tabela, $banco = "") {
 
         $con = Conexao::getInstance();
+        
+        $dados =  array();
 
         $sql = "select column_name, column_type, column_comment, column_key, character_maximum_length
                     from information_schema.COLUMNS 
@@ -65,22 +67,33 @@ class Gerador {
     # informacoes dos campos da tabela
 
     public function tipoCampo($tipo){
-        var_dump($tipo);
-        $result = "";
+       
         if(strpos($tipo, "int(") == 0){
-            $result = "text";
+            return "text";
         }elseif (strpos($tipo, "varchar") == 0){
-            $result = "text";
+           return (strpos($tipo, "varchar") == 0);
         }elseif(strpos($tipo, "date") == 0){
-            $result = "date";
-        }elseif(strpos($tipo, "tinyint") == 0){
-            
-            $result = "rb_ck";
+           return "date";
+        }elseif(strpos($tipo, "tinyint(1") == 0){
+           return "checkbox";
+        }elseif(strpos($tipo, "tinyint(2") == 0){
+           return "radio";
+        }else {
+            return "erro";
+        }
+
+    }
+    
+    public function tamanhoColuna($tamanho) {
+        if($tamanho <='26'){
+            $result = 2;
+        }elseif ($tamanho <='70') {
+            $result = 6;
+        }else {
+            $result = 12;
         }
         
-        
         return $result;
-        
     }
 
 

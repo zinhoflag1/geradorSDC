@@ -25,57 +25,57 @@ $radio_button_padrao ="";
 
 foreach ($campos['full'] as $key => $campo) {
     
-     var_dump($campo);
-
+    //var_dump($campo);
+    //var_dump($gerador->tipoCampo($campo->column_type))."<br>";
+    
     # campos normais ( sem chave primaria)
     if (empty($campo->column_key)) {
         $maxlen = (is_null($campo->character_maximum_length)) ? "" : ($campo->character_maximum_length - 1);
-
         
-        if($gerador->tipoCampo($campo->column_type) == "rb_ck") {
-            
+        $colSize = $gerador->tamanhoColuna($campo->character_maximum_length);
+                  
             # radio button
-            if(substr($campo->column_name, 0, 3) == "rb_"){
+            if($gerador->tipoCampo($campo->column_type) == "radio"){
                 
                 $radio_button_padrao .= "\n\$(\"#".$campo->column_name."_nao\").attr(\"checked\",true);\n";
-                $inputs .= "<div class='col-md-6'>\n";
-                $inputs .= "<div class='radio'>\n";
-                $inputs .= "<label>\n";
-                $inputs .= "<input type='radio' name='".$campo->column_name."' id='".$campo->column_name."_sim' value='1'>\n";
-                $inputs .= "Sim\n";
-                $inputs .= "</label>\n";
+                $inputs .= "<div class='row'>\n";
+                    $inputs .= "<div class='col-md-".$colSize."'>\n";
+                        $inputs .= "<label>".$campo->column_comment."</label>\n";
+                        $inputs .= "<div class='radio'>\n";
+                        $inputs .= "<label>\n";
+                        $inputs .= "<input type='radio' name='".$campo->column_name."' id='".$campo->column_name."_sim' value='1'>\n";
+                        $inputs .= "Sim\n";
+                        $inputs .= "</label>\n";
+                        $inputs .= "</div>\n";
+                        $inputs .= "<div class='radio'>\n";
+                        $inputs .= "<label>\n";
+                        $inputs .= "<input type='radio' name='".$campo->column_name."' id='".$campo->column_name."_nao' value='0'>\n";
+                        $inputs .= "Não\n";
+                        $inputs .= "</label>\n";
+                        $inputs .= "</div>\n";
+                    $inputs .= "</div>\n";
                 $inputs .= "</div>\n";
-                $inputs .= "<div class='radio'>\n";
-                $inputs .= "<label>\n";
-                $inputs .= "<input type='radio' name='".$campo->column_name."' id='".$campo->column_name."_nao' value='0'>\n";
-                $inputs .= "Não\n";
-                $inputs .= "</label>\n";
-                $inputs .= "</div>\n";
-                $inputs .= "</div>\n";
-
-            $inputs .= "<div class='col-md-6'>\n";
-            $inputs .= "<label>" . $campo->column_comment . "</label>\n";
-            $inputs .= "<input type=\"" . $gerador->tipoCampo($campo->column_type) . "\" class='form form-control' name='" . $campo->column_name . "' id='" . $campo->column_name . "' maxlength='" . $maxlen . "' required >\n";
-            $inputs .= "</div>\n";
-                
              
             # checkbox
-            }elseif(substr($campo->column_name, 0, 3) == "ck_"){
-                print "checkbox";
+            }elseif($gerador->tipoCampo($campo->column_type) == "checkbox"){
+            
+                $inputs .= "<div class='row'>\n";
+                $inputs .= "<div class='col-md-".$colSize."'>\n";
+                $inputs .= "<label>" . $campo->column_comment . "</label>\n";
+                $inputs .= "<input type=\"" . $gerador->tipoCampo($campo->column_type) . "\" class='form form-control' name='" . $campo->column_name . "' id='" . $campo->column_name . "' maxlength='" . $maxlen . "' required >\n";
+                $inputs .= "</div>\n";
+                $inputs .= "</div>\n";
+            
+            # campo comun    
+            }else {
+                
+                $inputs .= "<div class='col-md-".$colSize."'>\n";
+                $inputs .= "<label>" . $campo->column_comment . "</label>\n";
+                $inputs .= "<input type=\"" . $gerador->tipoCampo($campo->column_type) . "\" class='form form-control' name='" . $campo->column_name . "' id='" . $campo->column_name . "' maxlength='" . $maxlen . "' required >\n";
+                $inputs .= "</div>\n";   
             }
-            
-            
-            
-        }else {
-            $inputs .= "<div class='col-md-6'>\n";
-            $inputs .= "<label>" . $campo->column_comment . "</label>\n";
-            $inputs .= "<input type=\"" . $gerador->tipoCampo($campo->column_type) . "\" class='form form-control' name='" . $campo->column_name . "' id='" . $campo->column_name . "' maxlength='" . $maxlen . "' required >\n";
-            $inputs .= "</div>\n";
-        }
         
-      
-        
-    
+
     # chave estrangeira (campo com pesquisa modal
     }elseif ($campo->column_key == "MUL"){
         #nome da tabela FK
@@ -89,11 +89,10 @@ foreach ($campos['full'] as $key => $campo) {
         $id_fk = $campo->column_name;
         
         # instancias dados para busca FK
-        $obj_fk .= "\n\${$nomeTableFk[0]->tabela} = new {$smallTableCamel}ConEstoqueModel();\n  
+        $obj_fk .= "\n\${$nomeTableFk[0]->tabela} = new {$smallTableCamel}{$contexto}Model();\n  
                     \$dados{$nomeTblFkCamel} = \${$nomeTableFk[0]->tabela}->lista{$id_fk}Autocomplete();\n";
         
-        
-        
+
         #nome do campos da tabela FK
         $nomeFk = "nome{$nomeTblFkCamel}"; // Alterar nome mostrado na pesquisa
         
@@ -107,7 +106,8 @@ foreach ($campos['full'] as $key => $campo) {
         });\n";
         
         # input e label para pesquisa de dados
-        $inputs .= "<div class='col-md-6'>\n";
+        $inputs .= "<div class='row'>\n";
+        $inputs .= "<div class='col-md-".$colSize."'>\n";
         $inputs .= "<label>" . $campo->column_comment . "</label>\n";
         $inputs .= "<div class=\"input-group\">\n";
         $inputs .= "<input type=\"text\" class='form form-control' name='{$nomeFk}_fk' id='{$nomeFk}_fk' required readonly='readonly'>\n";
@@ -117,6 +117,8 @@ foreach ($campos['full'] as $key => $campo) {
         $inputs .= "<input type=\"hidden\" name='" . $campo->column_name . "' id='" . $campo->column_name . "' required readonly='readonly'>\n";
            
         $inputs .= "</div>\n";
+        $inputs .= "</div>\n";
+    
         
         
         # modal para pesquisa 
@@ -146,39 +148,39 @@ foreach ($campos['full'] as $key => $campo) {
           </div><!-- /.modal -->\n\n <!--###################  FIM MODAL {$nomeTableFk[0]->tabela} ####################-->";
                       
                       
-    # array para "injetar easyautocomplete no form           
-    $dados_fk .= "
-    
-     /* ###################  fk_{$nomeTableFk[0]->tabela} ####################*/
-        $('#btnBusca{$id_fk}').click(function () {
-            $('#modal_{$id_fk}').modal({backdrop: 'static', keyboard: false});
-        });
+        # array para "injetar easyautocomplete no form           
+        $dados_fk .= "
 
-        var itens = {
-            data:
-            <?php print json_encode(\$dados{$nomeTblFkCamel}); ?>, // array com os dados
-            getValue: \"nome\", /* alterar com nome do item BD */
-            list: {
-                match: {
-                    enabled: true
-                },
+         /* ###################  fk_{$nomeTableFk[0]->tabela} ####################*/
+            $('#btnBusca{$id_fk}').click(function () {
+                $('#modal_{$id_fk}').modal({backdrop: 'static', keyboard: false});
+            });
 
-                onSelectItemEvent: function () {
-                    var id = \$(\"#searc{$id_fk}\").getSelectedItemData().{$id_fk};
-                    var nome = \$(\"#searc{$id_fk}\").getSelectedItemData().nome;
-                     
-                        \$(\"#{$nomeFk}_fk\").val(nome); // Mudar
-                       \$(\"#{$id_fk}\").val(id);
-                },
-                onClickEvent:function(){
-                    $('#modal_{$id_fk}').modal('hide');
+            var itens = {
+                data:
+                <?php print json_encode(\$dados{$nomeTblFkCamel}); ?>, // array com os dados
+                getValue: \"nome\", /* alterar com nome do item BD */
+                list: {
+                    match: {
+                        enabled: true
+                    },
+
+                    onSelectItemEvent: function () {
+                        var id = \$(\"#searc{$id_fk}\").getSelectedItemData().{$id_fk};
+                        var nome = \$(\"#searc{$id_fk}\").getSelectedItemData().nome;
+
+                            \$(\"#{$nomeFk}_fk\").val(nome); // Mudar
+                           \$(\"#{$id_fk}\").val(id);
+                    },
+                    onClickEvent:function(){
+                        $('#modal_{$id_fk}').modal('hide');
+                    }
                 }
-            }
-        };
+            };
         /*********** autocomplete ***********/
         \$(\"#searc{$id_fk}\").easyAutocomplete(itens);
                                 
-    /*###########################  final {$nomeTableFk[0]->tabela} #####################*/";
+        /*###########################  final {$nomeTableFk[0]->tabela} #####################*/";
         
     }
 }
