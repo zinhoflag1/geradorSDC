@@ -72,11 +72,17 @@ foreach ($campos['full'] as $key => $campo) {
         $inputInsert .= $campo->column_name. $separacao ;
         $inputInsertValue .= ":{$campo->column_name}". $separacao;
         
+        
+
         # bindValue
         if(strpos($campo->column_name, "data_") === 0){
             //var_dump(strpos($campo->column_name, "data_"));
 
             $geraBind .= "\$result->bindValue(\":{$campo->column_name}\", DataMysql::dataForm(\$dados['{$campo->column_name}']));\n";    
+        }elseif(substr($campo->column_name, 0, 3) == "ck_"){
+            //var_dump(substr($campo->column_name, 0, 3) == "ck_");
+            
+            $geraBind .= "\$result->bindValue(\":{$campo->column_name}\", isset(\$dados['{$campo->column_name}']) ? 1 : 0);\n";    
         }else {
             $geraBind .= "\$result->bindValue(\":{$campo->column_name}\", \$dados['{$campo->column_name}']);\n";    
         }

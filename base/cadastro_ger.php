@@ -23,10 +23,12 @@ $close_focus_pesquisa = "";
 
 $radio_button_padrao ="";
 
+$checkbox_padrao = "";
+
 foreach ($campos['full'] as $key => $campo) {
     
-    //var_dump($campo);
-    //var_dump($gerador->tipoCampo($campo->column_type))."<br>";
+    var_dump($campo->column_type);
+    var_dump($gerador->tipoCampo($campo->column_type))."<br>";
     
     # campos normais ( sem chave primaria)
     if (empty($campo->column_key)) {
@@ -58,20 +60,26 @@ foreach ($campos['full'] as $key => $campo) {
              
             # checkbox
             }elseif($gerador->tipoCampo($campo->column_type) == "checkbox"){
+                
+                $checkbox_padrao .= "\n\$(\"#".$campo->column_name.").attr(\"checked\",false);\n";
+                $checkbox_padrao .= "if(\$(\"#".$campo->column_name.").is(\":checked\")){\n";
+                $checkbox_padrao .= "\$(\"#".$campo->column_name.").val(1);\n";
+                $checkbox_padrao .= "}\n\n";
             
                 $inputs .= "<div class='row'>\n";
-                $inputs .= "<div class='col-md-".$colSize."'>\n";
+                $inputs .= "<div class='col-md-".$colSize."'><br>\n";
+                $inputs .= "<input type=\"" . $gerador->tipoCampo($campo->column_type) . "\" class='checkbox-inline' name='" . $campo->column_name . "' id='" . $campo->column_name . "' >\n";
                 $inputs .= "<label>" . $campo->column_comment . "</label>\n";
-                $inputs .= "<input type=\"" . $gerador->tipoCampo($campo->column_type) . "\" class='form form-control' name='" . $campo->column_name . "' id='" . $campo->column_name . "' maxlength='" . $maxlen . "' required >\n";
                 $inputs .= "</div>\n";
                 $inputs .= "</div>\n";
             
             # campo comun    
             }else {
-                
+                $inputs .= "<div class='row'>\n";
                 $inputs .= "<div class='col-md-".$colSize."'>\n";
                 $inputs .= "<label>" . $campo->column_comment . "</label>\n";
                 $inputs .= "<input type=\"" . $gerador->tipoCampo($campo->column_type) . "\" class='form form-control' name='" . $campo->column_name . "' id='" . $campo->column_name . "' maxlength='" . $maxlen . "' required >\n";
+                $inputs .= "</div>\n";   
                 $inputs .= "</div>\n";   
             }
         
@@ -237,6 +245,8 @@ $texto = <<< codPhp
         
     $(document).ready(function () {
     
+        /* ckeck box padrao */
+        {$checkbox_padrao}
     
         /* radio button padrao */
         {$radio_button_padrao}

@@ -67,19 +67,17 @@ class Gerador {
     # informacoes dos campos da tabela
 
     public function tipoCampo($tipo){
-       
-        if(strpos($tipo, "int(") == 0){
+    
+        if(substr($tipo, 0, 4) == "int("){
             return "text";
-        }elseif (strpos($tipo, "varchar") == 0){
-           return (strpos($tipo, "varchar") == 0);
-        }elseif(strpos($tipo, "date") == 0){
+        }elseif (substr($tipo, 0, 7) == "varchar"){
+           return "text";
+        }elseif(substr($tipo, 0, 4) == "date"){
            return "date";
-        }elseif(strpos($tipo, "tinyint(1") == 0){
+        }elseif(substr($tipo, 0, 9) == "tinyint(1"){
            return "checkbox";
-        }elseif(strpos($tipo, "tinyint(2") == 0){
+        }elseif(substr($tipo, 0, 9) == "tinyint(2"){
            return "radio";
-        }else {
-            return "erro";
         }
 
     }
