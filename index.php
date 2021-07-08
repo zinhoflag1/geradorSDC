@@ -144,6 +144,8 @@ $tabelas = Database::getTabelas('gestaocedec');
                 <li>Campo Valores Monerarios : val_ <span> ( Mascara )</span></li>
                 <li>Ordenação Formulario <span>( segue ordem colunas tabela BD )</span></li>
                 <li>Comentário de colunas usado como Label</li>
+                <li>Nome para checkbox <i><b>ck_nome</b></i> Tipo BD TINYINT(1)</li>
+                <li>Nome para Radio Button <i><b>rb_nome</b></i> Tipo BD TINYINT(2)</li>
                 
             </ul>
             
