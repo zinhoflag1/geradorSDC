@@ -69,7 +69,7 @@ $texto = <<< codPhp
 
 \$nr = 0;
 
-print "<legend>Cadastro {$smallTableCamel}</legend>";
+print "<legend>Menu </legend>";
 
 print "<div class=\"table-responsive\"><table class=\"table table-bordered table-striped\">
     <thead>

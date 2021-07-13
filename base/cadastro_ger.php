@@ -27,8 +27,8 @@ $checkbox_padrao = "";
 
 foreach ($campos['full'] as $key => $campo) {
     
-    var_dump($campo->column_type);
-    var_dump($gerador->tipoCampo($campo->column_type))."<br>";
+    //var_dump($campo->column_type);
+   // var_dump($gerador->tipoCampo($campo->column_type))."<br>";
     
     # campos normais ( sem chave primaria)
     if (empty($campo->column_key)) {
@@ -219,7 +219,7 @@ $texto = <<< codPhp
 
 ?>
 
-<legend>Cadastro de {$smallTableCamel}</legend>
+<legend>Cadastro {$titulo->table_comment}</legend>
 <form action="<?=FuncaoBase::geraLink("{$mod}", "{$smallTable}", "gravar");?>" method="post" accept-charset="utf-8" name="frm{$smallTableCamel}" id="frm{$smallTableCamel}">
     
     {$inputs}

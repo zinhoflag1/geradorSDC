@@ -78,8 +78,8 @@ $tabelas = Database::getTabelas('gestaocedec');
                         ?>
                     </select>
                     <br>
-
-
+                 
+                    
                     <label>Nome Tabela (Nome da Tabela no Banco de Dados) :</label><br>
                     <select name="tabela" id="tabela"  class="form form-control" >
                         <option>Escolha a Tabela</option>                      
@@ -95,6 +95,7 @@ $tabelas = Database::getTabelas('gestaocedec');
                         <option>mod_cedec</option>
                         <option>mod_admin</option>
                         <option>mod_teste</option>
+                        <option>mod_decreto</option>
                     </select>
                     <br>
 
@@ -139,6 +140,7 @@ $tabelas = Database::getTabelas('gestaocedec');
         <div>
             <p style="text-align: center"> <legend>Nomeclatuda Banco de Dados</legend></p>
             <ul>
+                <li>Obs: Gerar primeiro as tabelas <b><i>FILHAS<i></li></b>
                 <li>Chave primária : id</li>
                 <li>Campo Data : data_ <span> ( Datapicker )</span></li>
                 <li>Campo Valores Monerarios : val_ <span> ( Mascara )</span></li>

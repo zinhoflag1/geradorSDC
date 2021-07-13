@@ -173,7 +173,7 @@ $texto = <<< codPhp
 
 ?>
 
-<legend>Editar Cadastro {$smallTableCamel}</legend>
+<legend>Edição {$titulo->table_comment}</legend>
 
 
 <form action="<?=FuncaoBase::geraLink("{$mod}", "{$smallTable}", "edit");?>" method="post" accept-charset="utf-8" name="frm{$smallTableCamel}" id="frm{$smallTableCamel}">

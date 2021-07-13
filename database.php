@@ -24,7 +24,7 @@ class Database {
 
         $con = Conexao::getInstance();
 
-        $sql = "select table_name
+        $sql = "select table_name, table_comment
                 from information_schema.tables
                 where table_type = 'BASE TABLE'
                         and table_schema = '" . $baseDados . "'";
@@ -33,6 +33,25 @@ class Database {
 
         while ($linha = $result->fetch(PDO::FETCH_OBJ)) {
             $dados[] = $linha;
+        }
+        
+        return $dados;
+    }
+    
+    public static function getTabela($baseDados, $tabela) {
+
+        $con = Conexao::getInstance();
+
+        $sql = "select table_name, table_comment
+                from information_schema.tables
+                where table_type = 'BASE TABLE'
+                        and table_schema = '" . $baseDados . "' 
+                        and table_name = '" .$tabela ."'";
+        $dados = array();
+        $result = $con->query($sql);
+
+        while ($linha = $result->fetch(PDO::FETCH_OBJ)) {
+            $dados = $linha;
         }
         
         return $dados;

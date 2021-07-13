@@ -1,4 +1,6 @@
-<?php include_once("config.ini.php");?>
+<?php include_once("config.ini.php");
+include_once ("database.php");
+?>
 <!doctype html>
 <html lang="en">
     <head>
@@ -49,6 +51,9 @@
     $contexto = isset($_POST['contexto']) ? $_POST['contexto'] : "";
     $banco = isset($_POST['selBanco']) ? $_POST['selBanco'] : "";
 
+    
+    $titulo = Database::getTabela($banco, $tabela);
+       
     $prefixoMod = substr($tabela, 0, strpos($tabela, "_") + 1);
 
     # nome modulo sem mod_
@@ -82,6 +87,11 @@
                             <th>Nome Tabela</th>
                             <th>variavel</th>
                             <th>valor</th>
+                        </tr>
+                        <tr>
+                            <td>Titulo Tabela (Comentario DB)</td>
+                            <td>\$titulo</td>
+                            <td>{$titulo->table_comment}</td>
                         </tr>
                         <tr>
                             <td>Identificador Tabela</td>
